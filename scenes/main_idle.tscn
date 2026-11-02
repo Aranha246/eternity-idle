@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8idle11tier01"]
+[gd_scene load_steps=3 format=3 uid="uid://b8idle11tier01"]
 
 [ext_resource type="Script" path="res://scenes/main_idle.gd" id="1_main"]
+[ext_resource type="Texture2D" path="res://assets/village.jpg" id="2_village"]
 
 [node name="MainIdle" type="Control"]
 layout_mode = 3
@@ -11,21 +12,144 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="Backdrop" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_scroll_mode = 0
+mouse_filter = 2
+color = Color(0.07, 0.05, 0.08, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Root" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="CurrencyPanel" type="PanelContainer" parent="Root"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Root/CurrencyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="CurrencyVBox" type="VBoxContainer" parent="Root/CurrencyPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/CurrencyPanel/Margin/CurrencyVBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Currencies"
+
+[node name="MenuButton" type="Button" parent="Root/CurrencyPanel/Margin/CurrencyVBox/Header"]
+layout_mode = 2
+text = "Menu"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox"]
+layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
+
+[node name="VillageArea" type="VBoxContainer" parent="Root"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="HintLabel" type="Label" parent="Root/VillageArea"]
+layout_mode = 2
+text = "Click the village to earn 1 Copper Coin"
+horizontal_alignment = 1
+
+[node name="VillageFrame" type="AspectRatioContainer" parent="Root/VillageArea"]
+layout_mode = 2
+size_flags_vertical = 3
+ratio = 1.7778
+
+[node name="Village" type="TextureRect" parent="Root/VillageArea/VillageFrame"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("2_village")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MenuOverlay" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.01, 0.03, 0.72)
+
+[node name="Center" type="CenterContainer" parent="MenuOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="MenuOverlay/Center"]
+custom_minimum_size = Vector2(280, 220)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="MenuOverlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="MenuOverlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PausedLabel" type="Label" parent="MenuOverlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="MenuOverlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenuButton" type="Button" parent="MenuOverlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="MenuOverlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="Root/CurrencyPanel/Margin/CurrencyVBox/Header/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/QuitButton" to="." method="_on_quit_pressed"]

@@ -1,6 +1,7 @@
 extends Node
 
 signal currency_changed(tier_index: int, new_amount: float)
+signal tier_unlocked(tier_index: int)
 
 const CURRENCY_NAMES: PackedStringArray = [
 	"Copper Coin",
@@ -21,6 +22,8 @@ const CONVERSION_RATE: float = 100.0
 
 ## Maps currency index (0 to 10) to the current float balance.
 var currencies: Dictionary = {}
+## Maps currency index to whether its UI row is visible.
+var unlocked_tiers: Dictionary = {}
 
 
 func _ready() -> void:
@@ -29,8 +32,9 @@ func _ready() -> void:
 
 func _initialize_currencies() -> void:
 	for tier_index in TIER_COUNT:
-		# Every tier, including Copper Coin (tier 0), starts at 0.0.
 		currencies[tier_index] = 0.0
+		# Copper Coin is available from the start; every other tier is locked.
+		unlocked_tiers[tier_index] = tier_index == 0
 
 
 func get_currency_name(tier_index: int) -> String:
@@ -45,8 +49,16 @@ func get_balance(tier_index: int) -> float:
 	return float(currencies.get(tier_index, 0.0))
 
 
+func is_tier_unlocked(tier_index: int) -> bool:
+	if not _is_valid_tier(tier_index):
+		return false
+	return bool(unlocked_tiers.get(tier_index, false))
+
+
 func can_convert(from_tier: int) -> bool:
 	if not _is_valid_tier(from_tier):
+		return false
+	if not is_tier_unlocked(from_tier):
 		return false
 	if not _is_valid_tier(from_tier + 1):
 		return false
@@ -80,12 +92,24 @@ func convert_to_next_tier(from_tier: int) -> bool:
 	var next_tier := from_tier + 1
 	if not _is_valid_tier(from_tier) or not _is_valid_tier(next_tier):
 		return false
+	if not is_tier_unlocked(from_tier):
+		return false
 	if get_balance(from_tier) < CONVERSION_RATE:
 		return false
 	if not spend_currency(from_tier, CONVERSION_RATE):
 		return false
 	add_currency(next_tier, 1.0)
+	_unlock_tier(next_tier)
 	return true
+
+
+func _unlock_tier(tier_index: int) -> void:
+	if not _is_valid_tier(tier_index):
+		return
+	if is_tier_unlocked(tier_index):
+		return
+	unlocked_tiers[tier_index] = true
+	tier_unlocked.emit(tier_index)
 
 
 func _is_valid_tier(tier_index: int) -> bool:
