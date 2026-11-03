@@ -199,9 +199,9 @@ func _format_amount(amount: float) -> String:
 
 
 func _format_time(seconds: float) -> String:
-	var hrs := int(seconds / 3600)
-	var mins := int(fmod(seconds, 3600) / 60)
-	var secs := int(fmod(seconds, 60))
+	var hrs := int(seconds / 3600.0)
+	var mins := int(fmod(seconds, 3600.0) / 60.0)
+	var secs := int(fmod(seconds, 60.0))
 	if hrs > 0:
 		return "%dh %dm %ds" % [hrs, mins, secs]
 	elif mins > 0:

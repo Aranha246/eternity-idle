@@ -177,13 +177,13 @@ func _is_valid_tier(tier_index: int) -> bool:
 # Quest System Methods
 # ---------------------------------------------------------
 
-func get_quest_definition(quest_type: String = "") -> Dictionary:
+func get_quest_definition(_quest_type: String = "") -> Dictionary:
 	if not active_quest_info.is_empty():
 		return active_quest_info
 	return {}
 
 
-func start_quest(quest_type: String = "") -> bool:
+func start_quest(_quest_type: String = "") -> bool:
 	if is_quest_active:
 		return false
 		
