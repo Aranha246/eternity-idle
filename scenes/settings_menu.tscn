@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cbx4uhnklipjg"]
+[gd_scene load_steps=2 format=3 uid="uid://settingsmenu01"]
 
 [ext_resource type="Script" path="res://scenes/settings_menu.gd" id="1_settings"]
 
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Center"]
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(450, 380)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="Center/Panel"]
@@ -78,6 +78,24 @@ size_flags_vertical = 4
 min_value = 50.0
 max_value = 150.0
 value = 100.0
+
+[node name="WindowModeLabel" type="Label" parent="Center/Panel/Margin/VBox/Grid"]
+layout_mode = 2
+text = "Window Mode"
+
+[node name="WindowModeOption" type="OptionButton" parent="Center/Panel/Margin/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResolutionLabel" type="Label" parent="Center/Panel/Margin/VBox/Grid"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="Center/Panel/Margin/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="Center/Panel/Margin/VBox"]
 unique_name_in_owner = true

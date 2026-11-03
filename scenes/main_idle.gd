@@ -4,9 +4,9 @@ const MENU_SCENE := "res://scenes/main_menu.tscn"
 const SETTINGS_SCENE := preload("res://scenes/settings_menu.tscn")
 
 @onready var _rows_container: VBoxContainer = %CurrenciesContainer
-@onready var _village: TextureRect = $Root/VillageArea/VillageFrame/Village
+@onready var _village: TextureRect = $Root/RightContentArea/VillagePanel/VillageMargin/Village
 @onready var _menu_overlay: ColorRect = $MenuOverlay
-@onready var _hint_label: Label = $Root/VillageArea/HintLabel
+@onready var _hint_label: Label = $Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox/HintLabel
 @onready var _stats_vbox: VBoxContainer = %StatsVBox
 @onready var _hero_sprite: TextureRect = %HeroSprite
 

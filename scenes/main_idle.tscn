@@ -38,7 +38,7 @@ grow_vertical = 2
 theme_override_constants/separation = 16
 
 [node name="LeftPanel" type="VBoxContainer" parent="Root"]
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
 theme_override_constants/separation = 12
 
@@ -70,33 +70,33 @@ text = "Eternity Realm"
 layout_mode = 2
 text = "Menu"
 
-[node name="ContentVBox" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 12
-
-[node name="CurrenciesScroll" type="ScrollContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox"]
-custom_minimum_size = Vector2(0, 200)
+[node name="ContentScroll" type="ScrollContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="CurrenciesContainer" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox/CurrenciesScroll"]
+[node name="ContentVBox" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="CurrenciesContainer" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentScroll/ContentVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="HSeparator" type="HSeparator" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox"]
+[node name="HSeparator" type="HSeparator" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentScroll/ContentVBox"]
 layout_mode = 2
 
-[node name="Quests" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox" instance=ExtResource("3_quest")]
+[node name="Quests" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentScroll/ContentVBox" instance=ExtResource("3_quest")]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="StatsPanel" type="PanelContainer" parent="Root/LeftPanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 180)
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="Root/LeftPanel/StatsPanel"]
@@ -127,34 +127,57 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VillageArea" type="VBoxContainer" parent="Root"]
+[node name="RightContentArea" type="VBoxContainer" parent="Root"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="HeroVisualContainer" type="PanelContainer" parent="Root/VillageArea"]
-custom_minimum_size = Vector2(0, 200)
+[node name="HeroVisualContainer" type="PanelContainer" parent="Root/RightContentArea"]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="HeroSprite" type="TextureRect" parent="Root/VillageArea/HeroVisualContainer"]
-unique_name_in_owner = true
+[node name="HeroMargin" type="MarginContainer" parent="Root/RightContentArea/HeroVisualContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HeroVBox" type="VBoxContainer" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin"]
+layout_mode = 2
+alignment = 1
+
+[node name="HeroSprite" type="TextureRect" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
 texture = ExtResource("4_hero")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HintLabel" type="Label" parent="Root/VillageArea"]
+[node name="HintLabel" type="Label" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox"]
 layout_mode = 2
 text = "Embark on quests to earn coins"
 horizontal_alignment = 1
 
-[node name="VillageFrame" type="AspectRatioContainer" parent="Root/VillageArea"]
+[node name="VillagePanel" type="PanelContainer" parent="Root/RightContentArea"]
 layout_mode = 2
 size_flags_vertical = 3
-ratio = 1.7778
 
-[node name="Village" type="TextureRect" parent="Root/VillageArea/VillageFrame"]
+[node name="VillageMargin" type="MarginContainer" parent="Root/RightContentArea/VillagePanel"]
 layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Village" type="TextureRect" parent="Root/RightContentArea/VillagePanel/VillageMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource("2_village")
 expand_mode = 1
 stretch_mode = 6
