@@ -6,9 +6,9 @@ const SETTINGS_SCENE := preload("res://scenes/settings_menu.tscn")
 @onready var _rows_container: VBoxContainer = %CurrenciesContainer
 @onready var _village: TextureRect = $Root/RightContentArea/VillagePanel/VillageMargin/Village
 @onready var _menu_overlay: ColorRect = $MenuOverlay
-@onready var _hint_label: Label = $Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox/HintLabel
+@onready var _hint_label: Label = $Root/RightContentArea/VillagePanel/VillageMargin/Village/HintLabel
 @onready var _stats_vbox: VBoxContainer = %StatsVBox
-@onready var _hero_sprite: TextureRect = %HeroSprite
+@onready var _hero_sprite: TextureRect = %VillageHeroSprite
 
 var _balance_labels: Dictionary = {}
 var _convert_buttons: Dictionary = {}

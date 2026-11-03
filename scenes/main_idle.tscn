@@ -133,36 +133,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="HeroVisualContainer" type="PanelContainer" parent="Root/RightContentArea"]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="HeroMargin" type="MarginContainer" parent="Root/RightContentArea/HeroVisualContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HeroVBox" type="VBoxContainer" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin"]
-layout_mode = 2
-alignment = 1
-
-[node name="HeroSprite" type="TextureRect" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("4_hero")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="HintLabel" type="Label" parent="Root/RightContentArea/HeroVisualContainer/HeroMargin/HeroVBox"]
-layout_mode = 2
-text = "Embark on quests to earn coins"
-horizontal_alignment = 1
-
 [node name="VillagePanel" type="PanelContainer" parent="Root/RightContentArea"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -181,6 +151,38 @@ size_flags_vertical = 3
 texture = ExtResource("2_village")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="VillageHeroSprite" type="TextureRect" parent="Root/RightContentArea/VillagePanel/VillageMargin/Village"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 80.0
+offset_right = -56.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_hero")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HintLabel" type="Label" parent="Root/RightContentArea/VillagePanel/VillageMargin/Village"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 16.0
+offset_right = 150.0
+offset_bottom = 40.0
+grow_horizontal = 2
+text = "Embark on quests to earn coins"
+horizontal_alignment = 1
 
 [node name="MenuOverlay" type="ColorRect" parent="."]
 visible = false
