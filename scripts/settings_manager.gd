@@ -46,35 +46,44 @@ func load_settings() -> void:
 	GameManager.music_volume = music_volume
 	GameManager.ui_scale = ui_scale
 	
-	apply_display_settings()
+	# Apply initial display settings on the main window after scene tree is ready
+	call_deferred("apply_display_settings")
 
 
 func apply_display_settings() -> void:
+	var window := get_window()
+	if window == null:
+		return
+
 	match window_mode_index:
 		0: # Windowed
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+			window.mode = Window.MODE_WINDOWED
+			window.borderless = false
 			apply_resolution()
 		1: # Fullscreen
-			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		2: # Borderless
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true)
+			window.borderless = false
+			window.mode = Window.MODE_FULLSCREEN
+		2: # Borderless Windowed
+			window.mode = Window.MODE_WINDOWED
+			window.borderless = true
 			apply_resolution()
 
 
 func apply_resolution() -> void:
+	var window := get_window()
+	if window == null:
+		return
+		
 	if window_mode_index == 1:
-		return # Resolution changes don't apply when in fullscreen mode
+		return # Resolution changes don't alter window size in true fullscreen
 		
 	if resolution_index >= 0 and resolution_index < RESOLUTIONS.size():
 		var res: Vector2i = RESOLUTIONS[resolution_index]
-		DisplayServer.window_set_size(res)
+		window.size = res
 		
 		# Center window on primary screen when in windowed or borderless mode
 		var primary_screen: int = DisplayServer.get_primary_screen()
 		var screen_pos: Vector2i = DisplayServer.screen_get_position(primary_screen)
 		var screen_size: Vector2i = DisplayServer.screen_get_size(primary_screen)
 		var target_pos: Vector2i = screen_pos + (screen_size - res) / 2
-		DisplayServer.window_set_position(target_pos)
+		window.position = target_pos
