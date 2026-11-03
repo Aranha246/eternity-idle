@@ -27,6 +27,7 @@ layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="HeroAvatar" type="TextureRect" parent="VBoxContainer/HeroSection/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 texture = ExtResource("2_icon")
@@ -39,11 +40,13 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="HeroNameLabel" type="Label" parent="VBoxContainer/HeroSection/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Hero: Novice Adventurer"
 
 [node name="HeroStatusLabel" type="Label" parent="VBoxContainer/HeroSection/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Status: Idle (Ready)"
 
@@ -62,20 +65,24 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="QuestTitleLabel" type="Label" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "No Active Quest"
 
 [node name="TimerLabel" type="Label" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Ready to start a new quest"
 
 [node name="QuestProgressBar" type="ProgressBar" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 show_percentage = false
 
 [node name="StatusMessageLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -122,6 +129,7 @@ theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 text = "Reward: 15 Copper Coins"
 
 [node name="RetrievalButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Embark"
 
@@ -153,6 +161,7 @@ theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 text = "Reward: 50 Copper Coins"
 
 [node name="HuntingButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Embark"
 
@@ -184,5 +193,6 @@ theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 text = "Reward: 1 Silver Coin"
 
 [node name="DungeonButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Embark"

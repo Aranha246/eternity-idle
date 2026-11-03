@@ -1,17 +1,17 @@
 extends MarginContainer
 
-@onready var hero_avatar: TextureRect = $VBoxContainer/HeroSection/HBoxContainer/HeroAvatar
-@onready var hero_name_label: Label = $VBoxContainer/HeroSection/HBoxContainer/VBoxContainer/HeroNameLabel
-@onready var hero_status_label: Label = $VBoxContainer/HeroSection/HBoxContainer/VBoxContainer/HeroStatusLabel
+@onready var hero_avatar: TextureRect = %HeroAvatar
+@onready var hero_name_label: Label = %HeroNameLabel
+@onready var hero_status_label: Label = %HeroStatusLabel
 
-@onready var active_quest_label: Label = $VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer/QuestTitleLabel
-@onready var timer_label: Label = $VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer/TimerLabel
-@onready var progress_bar: ProgressBar = $VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer/QuestProgressBar
-@onready var status_message_label: Label = $VBoxContainer/StatusMessageLabel
+@onready var active_quest_label: Label = %QuestTitleLabel
+@onready var timer_label: Label = %TimerLabel
+@onready var progress_bar: ProgressBar = %QuestProgressBar
+@onready var status_message_label: Label = %StatusMessageLabel
 
-@onready var retrieval_button: Button = $VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/RetrievalButton
-@onready var hunting_button: Button = $VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/HuntingButton
-@onready var dungeon_button: Button = $VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/DungeonButton
+@onready var retrieval_button: Button = %RetrievalButton
+@onready var hunting_button: Button = %HuntingButton
+@onready var dungeon_button: Button = %DungeonButton
 
 
 func _ready() -> void:
