@@ -2,6 +2,9 @@ extends Node
 
 signal currency_changed(tier_index: int, new_amount: float)
 signal tier_unlocked(tier_index: int)
+signal quest_progress_updated(current_time: float, total_time: float)
+signal quest_completed(reward_amount: float)
+signal quest_started(quest_type: String)
 
 const CURRENCY_NAMES: PackedStringArray = [
 	"Copper Coin",
@@ -20,14 +23,52 @@ const CURRENCY_NAMES: PackedStringArray = [
 const TIER_COUNT: int = 11
 const CONVERSION_RATE: float = 100.0
 
+const QUEST_TYPES: Dictionary = {
+	"retrieval": {
+		"id": "retrieval",
+		"name": "Retrieval Quest",
+		"description": "Scout the outskirts to recover lost supplies.",
+		"duration": 5.0,
+		"reward_tier": 0,
+		"reward_amount": 15.0,
+	},
+	"hunting": {
+		"id": "hunting",
+		"name": "Hunting Quest",
+		"description": "Hunt wild beasts threatening the perimeter.",
+		"duration": 12.0,
+		"reward_tier": 0,
+		"reward_amount": 50.0,
+	},
+	"dungeon": {
+		"id": "dungeon",
+		"name": "Dungeon Delve",
+		"description": "Delve into ancient crypts for precious treasure.",
+		"duration": 25.0,
+		"reward_tier": 1,
+		"reward_amount": 1.0,
+	},
+}
+
 ## Maps currency index (0 to 10) to the current float balance.
 var currencies: Dictionary = {}
 ## Maps currency index to whether its UI row is visible.
 var unlocked_tiers: Dictionary = {}
 
+## Active quest state
+var is_quest_active: bool = false
+var quest_timer: float = 0.0
+var quest_duration: float = 0.0
+var current_quest_type: String = ""
+
 
 func _ready() -> void:
 	_initialize_currencies()
+
+
+func _process(delta: float) -> void:
+	if is_quest_active:
+		tick_quest(delta)
 
 
 func _initialize_currencies() -> void:
@@ -72,6 +113,8 @@ func add_currency(tier_index: int, amount: float) -> void:
 	if amount == 0.0:
 		return
 	currencies[tier_index] = get_balance(tier_index) + amount
+	if not is_tier_unlocked(tier_index):
+		_unlock_tier(tier_index)
 	currency_changed.emit(tier_index, currencies[tier_index])
 
 
@@ -114,3 +157,78 @@ func _unlock_tier(tier_index: int) -> void:
 
 func _is_valid_tier(tier_index: int) -> bool:
 	return tier_index >= 0 and tier_index < TIER_COUNT
+
+
+# ---------------------------------------------------------
+# Quest System Methods
+# ---------------------------------------------------------
+
+func get_quest_definition(quest_type: String) -> Dictionary:
+	var lower_key := quest_type.strip_edges().to_lower()
+	if QUEST_TYPES.has(lower_key):
+		return QUEST_TYPES[lower_key]
+	for key in QUEST_TYPES:
+		var q: Dictionary = QUEST_TYPES[key]
+		if q.get("name", "").to_lower() == lower_key or q.get("id", "").to_lower() == lower_key:
+			return q
+	return {}
+
+
+func start_quest(quest_type: String) -> bool:
+	if is_quest_active:
+		return false
+	var quest_info := get_quest_definition(quest_type)
+	if quest_info.is_empty():
+		push_warning("start_quest: Unknown quest type '%s'" % quest_type)
+		return false
+	is_quest_active = true
+	current_quest_type = str(quest_info.get("id", quest_type))
+	quest_duration = float(quest_info.get("duration", 5.0))
+	quest_timer = 0.0
+	quest_started.emit(current_quest_type)
+	quest_progress_updated.emit(quest_timer, quest_duration)
+	return true
+
+
+func tick_quest(delta: float) -> void:
+	if not is_quest_active:
+		return
+	quest_timer += delta
+	if quest_timer >= quest_duration:
+		quest_timer = quest_duration
+		quest_progress_updated.emit(quest_timer, quest_duration)
+		complete_quest()
+	else:
+		quest_progress_updated.emit(quest_timer, quest_duration)
+
+
+func complete_quest() -> void:
+	if not is_quest_active:
+		return
+	var quest_info := get_quest_definition(current_quest_type)
+	var reward_amount: float = float(quest_info.get("reward_amount", 10.0))
+	var reward_tier: int = int(quest_info.get("reward_tier", 0))
+
+	is_quest_active = false
+	current_quest_type = ""
+	quest_timer = 0.0
+	quest_duration = 0.0
+
+	add_currency(reward_tier, reward_amount)
+	quest_completed.emit(reward_amount)
+
+
+func cancel_quest() -> void:
+	if not is_quest_active:
+		return
+	is_quest_active = false
+	current_quest_type = ""
+	quest_timer = 0.0
+	quest_duration = 0.0
+	quest_progress_updated.emit(0.0, 0.0)
+
+
+func get_quest_progress_ratio() -> float:
+	if quest_duration <= 0.0:
+		return 0.0
+	return clampf(quest_timer / quest_duration, 0.0, 1.0)

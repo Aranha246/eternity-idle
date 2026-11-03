@@ -1,0 +1,188 @@
+[gd_scene load_steps=3 format=3 uid="uid://cquestpanel01"]
+
+[ext_resource type="Script" path="res://scenes/quest_panel.gd" id="1_quest"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2_icon"]
+
+[node name="QuestPanel" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_quest")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeroSection" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HeroSection"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeroAvatar" type="TextureRect" parent="VBoxContainer/HeroSection/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HeroSection/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HeroNameLabel" type="Label" parent="VBoxContainer/HeroSection/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Hero: Novice Adventurer"
+
+[node name="HeroStatusLabel" type="Label" parent="VBoxContainer/HeroSection/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Status: Idle (Ready)"
+
+[node name="ActiveQuestSection" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ActiveQuestSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ActiveQuestSection/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="QuestTitleLabel" type="Label" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "No Active Quest"
+
+[node name="TimerLabel" type="Label" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Ready to start a new quest"
+
+[node name="QuestProgressBar" type="ProgressBar" parent="VBoxContainer/ActiveQuestSection/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+show_percentage = false
+
+[node name="StatusMessageLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AvailableQuestsSection" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="QuestsHeader" type="Label" parent="VBoxContainer/AvailableQuestsSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Available Quests"
+
+[node name="QuestsVBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RetrievalQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+text = "Retrieval Quest (5s)"
+
+[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Reward: 15 Copper Coins"
+
+[node name="RetrievalButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox"]
+layout_mode = 2
+text = "Embark"
+
+[node name="HuntingQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+text = "Hunting Quest (12s)"
+
+[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Reward: 50 Copper Coins"
+
+[node name="HuntingButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox"]
+layout_mode = 2
+text = "Embark"
+
+[node name="DungeonQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+text = "Dungeon Delve (25s)"
+
+[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Reward: 1 Silver Coin"
+
+[node name="DungeonButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox"]
+layout_mode = 2
+text = "Embark"

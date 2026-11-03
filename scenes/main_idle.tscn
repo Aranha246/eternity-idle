@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8idle11tier01"]
+[gd_scene load_steps=4 format=3 uid="uid://b8idle11tier01"]
 
 [ext_resource type="Script" path="res://scenes/main_idle.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://assets/village.jpg" id="2_village"]
+[ext_resource type="PackedScene" uid="uid://cquestpanel01" path="res://scenes/quest_panel.tscn" id="3_quest"]
 
 [node name="MainIdle" type="Control"]
 layout_mode = 3
@@ -35,43 +36,58 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 
-[node name="CurrencyPanel" type="PanelContainer" parent="Root"]
-custom_minimum_size = Vector2(360, 0)
+[node name="MainPanel" type="PanelContainer" parent="Root"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="Root/CurrencyPanel"]
+[node name="Margin" type="MarginContainer" parent="Root/MainPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="CurrencyVBox" type="VBoxContainer" parent="Root/CurrencyPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Root/MainPanel/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Header" type="HBoxContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox"]
+[node name="Header" type="HBoxContainer" parent="Root/MainPanel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Root/CurrencyPanel/Margin/CurrencyVBox/Header"]
+[node name="Title" type="Label" parent="Root/MainPanel/Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
-text = "Currencies"
+text = "Eternity Realm"
 
-[node name="MenuButton" type="Button" parent="Root/CurrencyPanel/Margin/CurrencyVBox/Header"]
+[node name="MenuButton" type="Button" parent="Root/MainPanel/Margin/VBox/Header"]
 layout_mode = 2
 text = "Menu"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox"]
+[node name="TabContainer" type="TabContainer" parent="Root/MainPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Currencies" type="MarginContainer" parent="Root/MainPanel/Margin/VBox/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Root/MainPanel/Margin/VBox/TabContainer/Currencies"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Root/CurrencyPanel/Margin/CurrencyVBox/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/MainPanel/Margin/VBox/TabContainer/Currencies/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
+
+[node name="Quests" parent="Root/MainPanel/Margin/VBox/TabContainer" instance=ExtResource("3_quest")]
+layout_mode = 2
 
 [node name="VillageArea" type="VBoxContainer" parent="Root"]
 layout_mode = 2
@@ -149,7 +165,7 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="Root/CurrencyPanel/Margin/CurrencyVBox/Header/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="Root/MainPanel/Margin/VBox/Header/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/QuitButton" to="." method="_on_quit_pressed"]

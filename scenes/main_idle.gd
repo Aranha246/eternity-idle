@@ -3,7 +3,8 @@ extends Control
 const MINE_AMOUNT: float = 1.0
 const MENU_SCENE := "res://scenes/main_menu.tscn"
 
-@onready var _rows_container: VBoxContainer = $Root/CurrencyPanel/Margin/CurrencyVBox/ScrollContainer/VBoxContainer
+@onready var _rows_container: VBoxContainer = $Root/MainPanel/Margin/VBox/TabContainer/Currencies/ScrollContainer/VBoxContainer
+@onready var _tab_container: TabContainer = $Root/MainPanel/Margin/VBox/TabContainer
 @onready var _village: TextureRect = $Root/VillageArea/VillageFrame/Village
 @onready var _menu_overlay: ColorRect = $MenuOverlay
 @onready var _hint_label: Label = $Root/VillageArea/HintLabel
@@ -137,6 +138,11 @@ func _format_amount(amount: float) -> String:
 	if is_equal_approx(amount, round(amount)):
 		return str(int(round(amount)))
 	return "%.2f" % amount
+
+
+func switch_tab(tab_index: int) -> void:
+	if _tab_container != null and tab_index >= 0 and tab_index < _tab_container.get_tab_count():
+		_tab_container.current_tab = tab_index
 
 
 func _on_menu_button_pressed() -> void:
