@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8idle11tier01"]
+[gd_scene load_steps=5 format=3 uid="uid://b8idle11tier01"]
 
 [ext_resource type="Script" path="res://scenes/main_idle.gd" id="1_main"]
 [ext_resource type="Texture2D" path="res://assets/village.jpg" id="2_village"]
 [ext_resource type="PackedScene" uid="uid://cquestpanel01" path="res://scenes/quest_panel.tscn" id="3_quest"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4_hero"]
 
 [node name="MainIdle" type="Control"]
 layout_mode = 3
@@ -36,67 +37,115 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 
-[node name="MainPanel" type="PanelContainer" parent="Root"]
+[node name="LeftPanel" type="VBoxContainer" parent="Root"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Margin" type="MarginContainer" parent="Root/MainPanel"]
+[node name="MainPanel" type="PanelContainer" parent="Root/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Margin" type="MarginContainer" parent="Root/LeftPanel/MainPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="VBox" type="VBoxContainer" parent="Root/MainPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Header" type="HBoxContainer" parent="Root/MainPanel/Margin/VBox"]
+[node name="Header" type="HBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Root/MainPanel/Margin/VBox/Header"]
+[node name="Title" type="Label" parent="Root/LeftPanel/MainPanel/Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "Eternity Realm"
 
-[node name="MenuButton" type="Button" parent="Root/MainPanel/Margin/VBox/Header"]
+[node name="MenuButton" type="Button" parent="Root/LeftPanel/MainPanel/Margin/VBox/Header"]
 layout_mode = 2
 text = "Menu"
 
-[node name="TabContainer" type="TabContainer" parent="Root/MainPanel/Margin/VBox"]
+[node name="ContentVBox" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+theme_override_constants/separation = 12
 
-[node name="Currencies" type="MarginContainer" parent="Root/MainPanel/Margin/VBox/TabContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 8
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Root/MainPanel/Margin/VBox/TabContainer/Currencies"]
+[node name="CurrenciesScroll" type="ScrollContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Root/MainPanel/Margin/VBox/TabContainer/Currencies/ScrollContainer"]
+[node name="CurrenciesContainer" type="VBoxContainer" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox/CurrenciesScroll"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Quests" parent="Root/MainPanel/Margin/VBox/TabContainer" instance=ExtResource("3_quest")]
+[node name="HSeparator" type="HSeparator" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox"]
 layout_mode = 2
+
+[node name="Quests" parent="Root/LeftPanel/MainPanel/Margin/VBox/ContentVBox" instance=ExtResource("3_quest")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatsPanel" type="PanelContainer" parent="Root/LeftPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Root/LeftPanel/StatsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Root/LeftPanel/StatsPanel/Margin"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/LeftPanel/StatsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Kingdom Statistics"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Root/LeftPanel/StatsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Root/LeftPanel/StatsPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatsVBox" type="VBoxContainer" parent="Root/LeftPanel/StatsPanel/Margin/VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="VillageArea" type="VBoxContainer" parent="Root"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 16
+
+[node name="HeroVisualContainer" type="PanelContainer" parent="Root/VillageArea"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="HeroSprite" type="TextureRect" parent="Root/VillageArea/HeroVisualContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("4_hero")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="HintLabel" type="Label" parent="Root/VillageArea"]
 layout_mode = 2
-text = "Click the village to earn 1 Copper Coin"
+text = "Embark on quests to earn coins"
 horizontal_alignment = 1
 
 [node name="VillageFrame" type="AspectRatioContainer" parent="Root/VillageArea"]
@@ -106,7 +155,6 @@ ratio = 1.7778
 
 [node name="Village" type="TextureRect" parent="Root/VillageArea/VillageFrame"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
 texture = ExtResource("2_village")
 expand_mode = 1
 stretch_mode = 6
@@ -130,7 +178,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="MenuOverlay/Center"]
-custom_minimum_size = Vector2(280, 220)
+custom_minimum_size = Vector2(300, 320)
 layout_mode = 2
 
 [node name="Margin" type="MarginContainer" parent="MenuOverlay/Center/Panel"]
@@ -155,6 +203,12 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Resume"
 
+[node name="SettingsButton" type="Button" parent="MenuOverlay/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Settings"
+
 [node name="MainMenuButton" type="Button" parent="MenuOverlay/Center/Panel/Margin/VBox"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -165,7 +219,7 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="Root/MainPanel/Margin/VBox/Header/MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="Root/LeftPanel/MainPanel/Margin/VBox/Header/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/ResumeButton" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/MainMenuButton" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="MenuOverlay/Center/Panel/Margin/VBox/QuitButton" to="." method="_on_quit_pressed"]

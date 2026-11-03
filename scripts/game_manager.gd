@@ -61,12 +61,21 @@ var quest_timer: float = 0.0
 var quest_duration: float = 0.0
 var current_quest_type: String = ""
 
+## Stats tracking
+var total_coins_earned_by_tier: Dictionary = {}
+var quests_completed_count: int = 0
+var time_played: float = 0.0
+var sfx_volume: float = 1.0
+var music_volume: float = 1.0
+var ui_scale: float = 1.0
+
 
 func _ready() -> void:
 	_initialize_currencies()
 
 
 func _process(delta: float) -> void:
+	time_played += delta
 	if is_quest_active:
 		tick_quest(delta)
 
@@ -74,6 +83,7 @@ func _process(delta: float) -> void:
 func _initialize_currencies() -> void:
 	for tier_index in TIER_COUNT:
 		currencies[tier_index] = 0.0
+		total_coins_earned_by_tier[tier_index] = 0.0
 		# Copper Coin is available from the start; every other tier is locked.
 		unlocked_tiers[tier_index] = tier_index == 0
 
@@ -113,6 +123,7 @@ func add_currency(tier_index: int, amount: float) -> void:
 	if amount == 0.0:
 		return
 	currencies[tier_index] = get_balance(tier_index) + amount
+	total_coins_earned_by_tier[tier_index] = total_coins_earned_by_tier.get(tier_index, 0.0) + amount
 	if not is_tier_unlocked(tier_index):
 		_unlock_tier(tier_index)
 	currency_changed.emit(tier_index, currencies[tier_index])
@@ -213,6 +224,7 @@ func complete_quest() -> void:
 	current_quest_type = ""
 	quest_timer = 0.0
 	quest_duration = 0.0
+	quests_completed_count += 1
 
 	add_currency(reward_tier, reward_amount)
 	quest_completed.emit(reward_amount)
