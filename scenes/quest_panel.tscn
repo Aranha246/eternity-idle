@@ -87,112 +87,33 @@ layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="AvailableQuestsSection" type="VBoxContainer" parent="VBoxContainer"]
+[node name="ActionSection" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 8
 
-[node name="QuestsHeader" type="Label" parent="VBoxContainer/AvailableQuestsSection"]
+[node name="Margin" type="MarginContainer" parent="VBoxContainer/ActionSection"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="VBoxContainer/ActionSection/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="QuestDescLabel" type="Label" parent="VBoxContainer/ActionSection/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "Click below to embark on a random quest (2s - 10s duration)."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="EmbarkButton" type="Button" parent="VBoxContainer/ActionSection/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Available Quests"
-
-[node name="QuestsVBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RetrievalQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
-layout_mode = 2
-
-[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-text = "Retrieval Quest (5s)"
-
-[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-text = "Reward: 15 Copper Coins"
-
-[node name="RetrievalButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/RetrievalQuestRow/Margin/HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Embark"
-
-[node name="HuntingQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
-layout_mode = 2
-
-[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-text = "Hunting Quest (12s)"
-
-[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-text = "Reward: 50 Copper Coins"
-
-[node name="HuntingButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/HuntingQuestRow/Margin/HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Embark"
-
-[node name="DungeonQuestRow" type="PanelContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox"]
-layout_mode = 2
-
-[node name="Margin" type="MarginContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="VBox" type="VBoxContainer" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Title" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-text = "Dungeon Delve (25s)"
-
-[node name="Desc" type="Label" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
-text = "Reward: 1 Silver Coin"
-
-[node name="DungeonButton" type="Button" parent="VBoxContainer/AvailableQuestsSection/QuestsVBox/DungeonQuestRow/Margin/HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Embark"
+text = "Embark on Quest"

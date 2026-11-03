@@ -8,10 +8,9 @@ extends MarginContainer
 @onready var timer_label: Label = %TimerLabel
 @onready var progress_bar: ProgressBar = %QuestProgressBar
 @onready var status_message_label: Label = %StatusMessageLabel
+@onready var quest_desc_label: Label = %QuestDescLabel
 
-@onready var retrieval_button: Button = %RetrievalButton
-@onready var hunting_button: Button = %HuntingButton
-@onready var dungeon_button: Button = %DungeonButton
+@onready var embark_button: Button = %EmbarkButton
 
 
 func _ready() -> void:
@@ -19,21 +18,19 @@ func _ready() -> void:
 	GameManager.quest_completed.connect(_on_quest_completed)
 	GameManager.quest_started.connect(_on_quest_started)
 
-	retrieval_button.pressed.connect(_on_start_quest_pressed.bind("retrieval"))
-	hunting_button.pressed.connect(_on_start_quest_pressed.bind("hunting"))
-	dungeon_button.pressed.connect(_on_start_quest_pressed.bind("dungeon"))
+	embark_button.pressed.connect(_on_embark_pressed)
 
 	_update_ui_state()
 
 
-func _on_start_quest_pressed(quest_type: String) -> void:
-	if GameManager.start_quest(quest_type):
-		status_message_label.text = "Embarking on %s..." % _get_quest_name(quest_type)
+func _on_embark_pressed() -> void:
+	if GameManager.start_quest():
+		status_message_label.text = "Embarking on a new quest..."
 		_update_ui_state()
 
 
 func _on_quest_started(quest_type: String) -> void:
-	status_message_label.text = "Quest started: %s" % _get_quest_name(quest_type)
+	status_message_label.text = "Quest started: %s" % quest_type
 	_update_ui_state()
 
 
@@ -55,27 +52,23 @@ func _on_quest_completed(reward_amount: float) -> void:
 
 
 func _update_ui_state() -> void:
-	var is_active := GameManager.is_quest_active
-	retrieval_button.disabled = is_active
-	hunting_button.disabled = is_active
-	dungeon_button.disabled = is_active
+	var is_active: bool = GameManager.is_quest_active
+	embark_button.disabled = is_active
 
 	if is_active:
 		var q_info: Dictionary = GameManager.get_quest_definition(GameManager.current_quest_type)
-		var quest_name: String = str(q_info.get("name", GameManager.current_quest_type.capitalize()))
+		var quest_name: String = str(q_info.get("name", "Quest"))
+		var quest_desc: String = str(q_info.get("description", ""))
 		hero_status_label.text = "Status: On Quest (%s)" % quest_name
 		active_quest_label.text = "Active Quest: %s" % quest_name
+		quest_desc_label.text = quest_desc
 	else:
 		hero_status_label.text = "Status: Idle (Ready)"
 		active_quest_label.text = "No Active Quest"
+		quest_desc_label.text = "Click below to embark on a random quest (2s - 10s duration)."
 		if not GameManager.is_quest_active:
 			progress_bar.value = 0.0
 			timer_label.text = "Ready for adventure"
-
-
-func _get_quest_name(quest_type: String) -> String:
-	var info: Dictionary = GameManager.get_quest_definition(quest_type)
-	return str(info.get("name", quest_type.capitalize()))
 
 
 func _format_amount(amount: float) -> String:

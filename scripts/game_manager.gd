@@ -23,32 +23,35 @@ const CURRENCY_NAMES: PackedStringArray = [
 const TIER_COUNT: int = 11
 const CONVERSION_RATE: float = 100.0
 
-const QUEST_TYPES: Dictionary = {
-	"retrieval": {
-		"id": "retrieval",
-		"name": "Retrieval Quest",
-		"description": "Scout the outskirts to recover lost supplies.",
-		"duration": 5.0,
-		"reward_tier": 0,
-		"reward_amount": 15.0,
+const QUEST_POOL: Array[Dictionary] = [
+	{
+		"name": "Scout Perimeter",
+		"description": "Patrol the surrounding woods for minor threats.",
+		"reward_tier": 0
 	},
-	"hunting": {
-		"id": "hunting",
-		"name": "Hunting Quest",
-		"description": "Hunt wild beasts threatening the perimeter.",
-		"duration": 12.0,
-		"reward_tier": 0,
-		"reward_amount": 50.0,
+	{
+		"name": "Clear Goblin Camp",
+		"description": "Drive away goblin raiders harassing merchants.",
+		"reward_tier": 0
 	},
-	"dungeon": {
-		"id": "dungeon",
-		"name": "Dungeon Delve",
-		"description": "Delve into ancient crypts for precious treasure.",
-		"duration": 25.0,
-		"reward_tier": 1,
-		"reward_amount": 1.0,
+	{
+		"name": "Escort Caravan",
+		"description": "Protect a trade wagon traveling to the neighboring town.",
+		"reward_tier": 0
 	},
-}
+	{
+		"name": "Explore Ancient Ruins",
+		"description": "Search forgotten stone ruins for ancient artifacts.",
+		"reward_tier": 1
+	},
+	{
+		"name": "Slay Hill Giant",
+		"description": "Confront a dangerous giant causing tremors in the hills.",
+		"reward_tier": 1
+	}
+]
+
+var active_quest_info: Dictionary = {}
 
 ## Maps currency index (0 to 10) to the current float balance.
 var currencies: Dictionary = {}
@@ -174,28 +177,41 @@ func _is_valid_tier(tier_index: int) -> bool:
 # Quest System Methods
 # ---------------------------------------------------------
 
-func get_quest_definition(quest_type: String) -> Dictionary:
-	var lower_key := quest_type.strip_edges().to_lower()
-	if QUEST_TYPES.has(lower_key):
-		return QUEST_TYPES[lower_key]
-	for key in QUEST_TYPES:
-		var q: Dictionary = QUEST_TYPES[key]
-		if q.get("name", "").to_lower() == lower_key or q.get("id", "").to_lower() == lower_key:
-			return q
+func get_quest_definition(quest_type: String = "") -> Dictionary:
+	if not active_quest_info.is_empty():
+		return active_quest_info
 	return {}
 
 
-func start_quest(quest_type: String) -> bool:
+func start_quest(quest_type: String = "") -> bool:
 	if is_quest_active:
 		return false
-	var quest_info := get_quest_definition(quest_type)
-	if quest_info.is_empty():
-		push_warning("start_quest: Unknown quest type '%s'" % quest_type)
-		return false
+		
 	is_quest_active = true
-	current_quest_type = str(quest_info.get("id", quest_type))
-	quest_duration = float(quest_info.get("duration", 5.0))
 	quest_timer = 0.0
+	
+	# Random duration between 2.0 and 10.0 seconds
+	quest_duration = randf_range(2.0, 10.0)
+	
+	# Select random quest template
+	var template: Dictionary = QUEST_POOL[randi() % QUEST_POOL.size()]
+	
+	# Reward scales with duration (e.g. 5 coins per sec for copper, or 1 silver per 4 sec)
+	var reward_tier: int = int(template.get("reward_tier", 0))
+	var base_reward: float = round(quest_duration * 5.0)
+	if reward_tier > 0:
+		base_reward = maxf(1.0, round(quest_duration / 4.0))
+		
+	active_quest_info = {
+		"id": "random_quest",
+		"name": template.get("name", "Random Quest"),
+		"description": template.get("description", "A random adventure."),
+		"duration": quest_duration,
+		"reward_tier": reward_tier,
+		"reward_amount": base_reward
+	}
+	
+	current_quest_type = str(active_quest_info.get("name", "Quest"))
 	quest_started.emit(current_quest_type)
 	quest_progress_updated.emit(quest_timer, quest_duration)
 	return true
@@ -216,9 +232,8 @@ func tick_quest(delta: float) -> void:
 func complete_quest() -> void:
 	if not is_quest_active:
 		return
-	var quest_info := get_quest_definition(current_quest_type)
-	var reward_amount: float = float(quest_info.get("reward_amount", 10.0))
-	var reward_tier: int = int(quest_info.get("reward_tier", 0))
+	var reward_amount: float = float(active_quest_info.get("reward_amount", 10.0))
+	var reward_tier: int = int(active_quest_info.get("reward_tier", 0))
 
 	is_quest_active = false
 	current_quest_type = ""
@@ -228,6 +243,7 @@ func complete_quest() -> void:
 
 	add_currency(reward_tier, reward_amount)
 	quest_completed.emit(reward_amount)
+	active_quest_info = {}
 
 
 func cancel_quest() -> void:
