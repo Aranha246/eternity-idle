@@ -61,7 +61,7 @@ func _update_ui_state() -> void:
 	dungeon_button.disabled = is_active
 
 	if is_active:
-		var q_info := GameManager.get_quest_definition(GameManager.current_quest_type)
+		var q_info: Dictionary = GameManager.get_quest_definition(GameManager.current_quest_type)
 		var quest_name: String = str(q_info.get("name", GameManager.current_quest_type.capitalize()))
 		hero_status_label.text = "Status: On Quest (%s)" % quest_name
 		active_quest_label.text = "Active Quest: %s" % quest_name
@@ -74,7 +74,7 @@ func _update_ui_state() -> void:
 
 
 func _get_quest_name(quest_type: String) -> String:
-	var info := GameManager.get_quest_definition(quest_type)
+	var info: Dictionary = GameManager.get_quest_definition(quest_type)
 	return str(info.get("name", quest_type.capitalize()))
 
 

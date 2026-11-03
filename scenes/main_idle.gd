@@ -135,9 +135,9 @@ func _update_stats_display() -> void:
 	_update_stat_label("quests_completed", "Quests Completed: %d" % GameManager.quests_completed_count)
 	
 	for tier_index in GameManager.TIER_COUNT:
-		var id := "total_tier_%d" % tier_index
+		var id: String = "total_tier_%d" % tier_index
 		if _stat_labels.has(id):
-			var total := GameManager.total_coins_earned_by_tier.get(tier_index, 0.0)
+			var total: float = float(GameManager.total_coins_earned_by_tier.get(tier_index, 0.0))
 			_update_stat_label(id, "Total %s: %s" % [GameManager.get_currency_name(tier_index), _format_amount(total)])
 
 
